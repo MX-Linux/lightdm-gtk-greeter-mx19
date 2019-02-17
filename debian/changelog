@@ -1,0 +1,5 @@
+lightdm-gtk-greeter-mx19 (19.02.01) mx; urgency=medium
+
+  * initial fork of lightdm-gtk-greeter-mx17
+
+ -- Dolphin Oracle <dolphinoracle@gmail.com>  Sat, 16 Feb 2019 10:30:12 -0500

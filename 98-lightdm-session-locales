@@ -1,0 +1,30 @@
+#!/bin/sh
+#
+# /etc/X11/Xsession.d/98-lightdm-session-locales
+#
+# check user selected  session locale
+#
+if pidof lightdm >/dev/null 2>/dev/null; then
+   if pidof accounts-daemon >/dev/null 2>/dev/null; then
+      DMRC="/var/lib/AccountsService/users/$USER"
+   else
+      DMRC="$HOME/.dmrc"
+   fi
+   if [ -r $DMRC  ]; then
+      DMRC_LANG="$(grep -m1 -o -E 'Language=(.*)' $DMRC 2>/dev/null | \
+                   sed -E 's/^Language=//; s/utf8/UTF-8/')"
+      if [ x"$DMRC_LANG" != "x" ]; then
+         export LANG="$DMRC_LANG"
+         export GDM_LANG="$DMRC_LANG"
+         # papersize
+         case "$(echo $(locale -c -k LC_PAPER) | sed -E -e 's/.*height=([0-9]+)[[:space:]]+width=([0-9]+).*/\1x\2/')" in
+            297x210) export PAPERSIZE="a4" 
+                     ;;
+            279x216) export PAPERSIZE="letter" 
+                     ;;
+                  *) export PAPERSIZE="letter" 
+                     ;;
+         esac
+      fi
+   fi
+fi
