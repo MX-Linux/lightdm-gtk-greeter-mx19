@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#kill at-spi-bus-launcher and allow DE to launch
+
+pkill -u lightdm -f /usr/lib/at-spi2-core/at-spi2-registryd
+pkill -u lightdm -f /usr/lib/at-spi2-core/at-spi-bus-launcher
+exit 0

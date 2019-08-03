@@ -2,3 +2,4 @@
 confs/*	etc/lightdm/mx19
 98-lightdm-session-locales etc/X11/Xsession.d
 login_screen/*		usr/share/backgrounds/MXLinux/lightdm
+scripts/*	usr/bin
