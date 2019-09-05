@@ -1,3 +1,9 @@
+lightdm-gtk-greeter-mx19 (19.09.01) mx; urgency=medium
+
+  * update art
+
+ -- Dolphin Oracle <dolphinoracle@gmail.com>  Thu, 05 Sep 2019 17:58:52 -0400
+
 lightdm-gtk-greeter-mx19 (19.08.01) mx; urgency=medium
 
   * added clock to panel 
