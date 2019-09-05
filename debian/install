@@ -1,5 +1,5 @@
 02_MX.conf			usr/share/lightdm/lightdm.conf.d
 confs/*	etc/lightdm/mx19
 98-lightdm-session-locales etc/X11/Xsession.d
-#login_screen/*		usr/share/backgrounds/login
+login_screen/*		usr/share/backgrounds/login
 scripts/*	usr/bin
