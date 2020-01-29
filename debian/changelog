@@ -1,3 +1,9 @@
+lightdm-gtk-greeter-mx19 (19.01.01) mx; urgency=medium
+
+  * mx19.1 
+
+ -- Dolphin Oracle <dolphinoracle@gmail.com>  Tue, 28 Jan 2020 19:07:11 -0500
+
 lightdm-gtk-greeter-mx19 (19.10.2) mx; urgency=medium
 
   * attempt to remove lightdm login screen on sysVinit shutdowns and reboots 
