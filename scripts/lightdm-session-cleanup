@@ -1,0 +1,5 @@
+#!/bin/bash
+
+pkill -u $USER -f '/usr/bin/gpg-agent|/usr/local/bin/tumblerd-monitor|/usr/bin/pulseaudio'
+
+exit 0

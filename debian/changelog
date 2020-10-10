@@ -1,3 +1,9 @@
+lightdm-gtk-greeter-mx19 (20.10.02) mx; urgency=medium
+
+  * remove phantom processes 
+
+ -- Dolphin Oracle <dolphinoracle@gmail.com>  Sat, 10 Oct 2020 13:59:44 -0400
+
 lightdm-gtk-greeter-mx19 (20.03.01) mx; urgency=medium
 
   * update control file 
