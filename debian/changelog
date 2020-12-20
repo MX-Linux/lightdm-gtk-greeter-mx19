@@ -1,3 +1,9 @@
+lightdm-gtk-greeter-mx19 (20.12.01) mx; urgency=medium
+
+  * adjust multiple keyboard layout handling in lightdm-session
+
+ -- fehlix <fehlix@mxlinux.org>  Sun, 20 Dec 2020 16:52:19 -0400
+
 lightdm-gtk-greeter-mx19 (20.10.02) mx; urgency=medium
 
   * remove phantom processes 
