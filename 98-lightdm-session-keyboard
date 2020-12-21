@@ -1,0 +1,66 @@
+#!/bin/sh
+
+# /etc/X11/Xsession.d/98-lightdm-session-keyboard
+#
+# check user selected session keyboard
+#
+# we run a bash-inline script, as this is /bin/sh-sourced by Xsession
+
+/usr/bin/bash <<'END_OF_BASH'
+
+# some checks ...
+# check lightdm
+# check "Use system keyboard" is active when running in Xfce
+# check if only one keyboard layout is active
+XML_LAYOUT="$HOME/.config/xfce4/xfconf/xfce-perchannel-xml/keyboard-layout.xml"
+
+if pidof lightdm >/dev/null 2>/dev/null  && \
+   ([ "${XDG_DATA_DIRS##*/xfce4}" == "${XDG_DATA_DIRS}" ] \
+   || ! grep -sq 'XkbDisable.*false' "$XML_LAYOUT" 2>/dev/null) \
+   && ! (setxkbmap -query | grep -q '^layout:.*,') \
+   && [ -f /etc/default/keyboard ];
+then
+    . /etc/default/keyboard
+    declare -a LAYOUTS VARIANTS #OPTIONS
+    readarray -d',' -t LAYOUTS  < <(printf "$XKBLAYOUT")
+    readarray -d',' -t VARIANTS < <(printf "$XKBVARIANT")
+    #readarray -d',' -t OPTIONS < <(printf "$XKBOPTIONS")
+
+    declare -A hash
+    for i in  ${!LAYOUTS[*]}; do
+        [ -z "${VARIANTS[i]}" ] && VARIANTS[i]=""
+        hash["${LAYOUTS[i]}:${VARIANTS[i]}"]="$i"
+    done;
+
+    kbd_layout=$( setxkbmap -query | grep -oP '^layout:\s*\K.*'  )
+    kbd_variant=$(setxkbmap -query | grep -oP '^variant:\s*\K.*' )
+    lv="$kbd_layout:$kbd_variant"
+
+    # is keyboard layout/variant already defined
+    pos=${hash["$lv"]}
+    if [ -z "$pos" ]; then
+       # set new layout as first entry
+       LAYOUTS=( "$kbd_layout"  "${LAYOUTS[@]}")
+       VARIANTS=( "$kbd_variant" "${VARIANTS[@]}")
+    elif (( pos > 0 )); then
+       # ok, move layout to first position
+       LAYOUTS=(  "${LAYOUTS[@]:$pos}"  "${LAYOUTS[@]:0:$pos}" )
+       VARIANTS=( "${VARIANTS[@]:$pos}" "${VARIANTS[@]:0:$pos}")
+    fi
+
+    setxkbmap \
+       -layout  "$(set -- "${LAYOUTS[@]}" ; IFS=','; echo "$*")" \
+       -variant "$(set -- "${VARIANTS[@]}"; IFS=','; echo "$*")" \
+       -option -option "$XKBOPTIONS"
+
+fi
+
+# check we have terminate: keyboard binding
+if ! setxkbmap -query | grep -sq '^options:.*terminate:'; then
+   setxkbmap -option  "terminate:ctrl_alt_bksp"
+fi
+
+exit 0
+
+END_OF_BASH
+
